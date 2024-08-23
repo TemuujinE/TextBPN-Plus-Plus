@@ -28,7 +28,7 @@ class BaseOptions(object):
 
         # basic opts
         self.parser.add_argument('--exp_name', default="TD500", type=str,
-                                 choices=['Synthtext', 'Totaltext', 'Ctw1500','Icdar2015',
+                                 choices=['MySynthData', 'Synthtext', 'Totaltext', 'Ctw1500','Icdar2015',
                                           "MLT2017", 'TD500', "MLT2019", "ArT", "ALL"], help='Experiment name')
         self.parser.add_argument("--gpu", default="1", help="set gpu id", type=str)
         self.parser.add_argument('--resume', default=None, type=str, help='Path to target resume checkpoint')

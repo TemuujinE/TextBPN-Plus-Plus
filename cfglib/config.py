@@ -67,8 +67,8 @@ config.approx_factor = 0.004
 
 
 def update_config(config, extra_config):
-    #for k, v in vars(extra_config).items():
-    for k, v in extra_config.items():
+    for k, v in vars(extra_config).items():
+    #for k, v in extra_config.items():
         config[k] = v
     # print(config.gpu)
     config.device = torch.device('cuda') if config.cuda else torch.device('cpu')

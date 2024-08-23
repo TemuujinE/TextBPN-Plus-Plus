@@ -11,4 +11,5 @@ from .Icdar19_Text import Mlt2019Text
 from .CTW1500_Text_New import Ctw1500Text_New
 from .Total_Text_New import TotalText_New
 from .Icdar19LSVT_Json import LsvtTextJson
+from .MySynthData import SynthData
 from .deploy import DeployDataset

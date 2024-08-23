@@ -9,8 +9,9 @@ import torch.utils.data as data
 from torch.optim import lr_scheduler
 from torch.utils.data import ConcatDataset
 
-from dataset import SynthText, TotalText, Ctw1500Text, Icdar15Text, LsvtTextJson,\
-    Mlt2017Text, TD500Text, ArtTextJson, Mlt2019Text, Ctw1500Text_New, TotalText_New, ArtText
+from dataset import (SynthData, 
+                     SynthText, TotalText, Ctw1500Text, Icdar15Text, LsvtTextJson, Mlt2017Text, 
+                     TD500Text, ArtTextJson, Mlt2019Text, Ctw1500Text_New, TotalText_New, ArtText)
 from network.loss import TextLoss
 from network.textnet import TextNet
 from util.augmentation import Augmentation
@@ -133,9 +134,19 @@ def train(model, train_loader, criterion, scheduler, optimizer, epoch):
 
 
 def main():
-
     global lr
-    if cfg.exp_name == 'Totaltext':
+    if cfg.exp_name == 'MySynthData':
+        trainset = SynthData(
+            data_root = '/home/lkhagvadorj/Temuujin/SynthData/synthetic_data/v2/',
+            gt_file_name = 'train_det_v4.txt',
+            is_training = True,
+            load_memory = cfg.load_memory,
+            transform = Augmentation(size = cfg.input_size, 
+                                     mean = cfg.means, 
+                                     std = cfg.stds)
+        )
+        valset = None
+    elif cfg.exp_name == 'Totaltext':
         trainset = TotalText(
             data_root='data/total-text-mat',
             ignore_list=None,
@@ -230,8 +241,13 @@ def main():
     else:
         print("dataset name is not correct")
 
-    train_loader = data.DataLoader(trainset, batch_size=cfg.batch_size,
-                                   shuffle=True, num_workers=cfg.num_workers,
+    print(f"Loaded: {cfg.exp_name} data")
+    train_loader = data.DataLoader(trainset, 
+                                   batch_size=cfg.batch_size,
+                                   shuffle=True, 
+                                   drop_last = False,
+                                   generator=torch.Generator(device='cuda'),
+                                   num_workers=cfg.num_workers,
                                    pin_memory=True)  # generator=torch.Generator(device=cfg.device)
 
     # Model
