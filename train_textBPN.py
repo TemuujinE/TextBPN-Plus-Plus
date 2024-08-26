@@ -132,13 +132,16 @@ def train(model, train_loader, criterion, scheduler, optimizer, epoch):
 
     print('Training Loss: {}'.format(losses.avg))
 
-
 def main():
     global lr
     if cfg.exp_name == 'MySynthData':
         trainset = SynthData(
             data_root = '/home/lkhagvadorj/Temuujin/SynthData/synthetic_data/v2/',
             gt_file_name = 'train_det_v4.txt',
+            #gt_data_dirs = ['FIXED_STYLE_5', 'FIXED_STYLE_4', 'FIXED_STYLE_3'],
+            gt_data_dirs = ['FIXED_STYLE_3'],
+            gt_dir = 'gt_word_by_word',
+            train_dir = 'train_images',
             is_training = True,
             load_memory = cfg.load_memory,
             transform = Augmentation(size = cfg.input_size, 
